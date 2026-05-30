@@ -1,0 +1,6 @@
+{
+  "name": "ForgeOps AI",
+  "description": "An AI-powered operational intelligence platform for incident workflows, RAG search, copilot operations, and realtime simulations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

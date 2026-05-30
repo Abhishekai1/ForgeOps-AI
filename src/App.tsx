@@ -17,7 +17,7 @@ export default function App() {
   // Gate landing state
   const [hasEnteredPlatform, setHasEnteredPlatform] = useState(false);
 
-  // Tenant / Role States
+  
   const [tenants, setTenants] = useState<Tenant[]>([]);
   const [activeOrgId, setActiveOrgId] = useState("org-aether");
   const [userRole, setUserRole] = useState("Senior Site Reliability Engineer");
@@ -30,11 +30,11 @@ export default function App() {
   const [incidentsList, setIncidentsList] = useState<Incident[]>([]);
   const [simulationFeed, setSimulationFeed] = useState<any[]>([]);
 
-  // Selection / Form Drawers
+  
   const [selectedIncident, setSelectedIncident] = useState<Incident | null>(null);
   const selectedIncidentIdRef = useRef<string | null>(null);
 
-  // Keep the mutable Ref strictly in sync with selectedIncident to prevent background poll race conditions
+ 
   useEffect(() => {
     selectedIncidentIdRef.current = selectedIncident ? selectedIncident.id : null;
   }, [selectedIncident]);
@@ -42,13 +42,12 @@ export default function App() {
   const [isNewIncidentOpen, setIsNewIncidentOpen] = useState(false);
   const [isCopilotCollapsibleOpen, setIsCopilotCollapsibleOpen] = useState(true);
 
-  // Form State
+
   const [newTitle, setNewTitle] = useState("");
   const [newDesc, setNewDesc] = useState("");
   const [newSev, setNewSev] = useState<SeverityType>("MEDIUM");
   const [newCat, setNewCat] = useState("Logistical Networks");
 
-  // Diagnostic / Executive Compiled Report State
   const [compiledReport, setCompiledReport] = useState<OperationalReport | null>(null);
   const [isCompilingReport, setIsCompilingReport] = useState(false);
 
@@ -123,7 +122,7 @@ export default function App() {
     syncServerData();
   }, [activeOrgId]);
 
-  // Telemetry real-time ticking loop (Every 5 seconds)
+  
   useEffect(() => {
     const tick = setInterval(() => {
       if (hasEnteredPlatform) {
@@ -584,7 +583,7 @@ export default function App() {
 
 
                 {/* -------------------------------------------------------------
-                 * TAB B: RESOLUTION CONTROL GRID (INCIDENTS TASK LIST)
+                 * TAB B: RESOLUTION CONTROL GRID
                  * ------------------------------------------------------------- */}
                  {activeTab === "incidents" && (
                   <div className="space-y-6">

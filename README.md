@@ -42,20 +42,20 @@ Three core ideas drive every design decision:
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                              BROWSER CLIENT                                  │
 │                                                                              │
-│  ┌─────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐  │
-│  │   App.tsx   │  │ MetricCharts │  │ CopilotChat  │  │   RagManager     │  │
-│  │             │  │              │  │              │  │                  │  │
-│  │ Root state  │  │ SVG telemetry│  │ Persistent   │  │ SOP upload +     │  │
-│  │ orchestrator│  │ line charts  │  │ AI sidebar   │  │ semantic search  │  │
-│  │ + 5s poller │  │ (CPU/Mem/Net)│  │ RAG-grounded │  │ cosine retrieval │  │
-│  └──────┬──────┘  └──────────────┘  └──────────────┘  └──────────────────┘  │
+│  ┌─────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐   │
+│  │   App.tsx   │  │ MetricCharts │  │ CopilotChat  │  │   RagManager     │   │
+│  │             │  │              │  │              │  │                  │   │
+│  │ Root state  │  │ SVG telemetry│  │ Persistent   │  │ SOP upload +     │   │
+│  │ orchestrator│  │ line charts  │  │ AI sidebar   │  │ semantic search  │   │
+│  │ + 5s poller │  │ (CPU/Mem/Net)│  │ RAG-grounded │  │ cosine retrieval │   │
+│  └──────┬──────┘  └──────────────┘  └──────────────┘  └──────────────────┘   │
 │         │                                                                    │
 │  ┌──────────────────────────────────────────────────────────────────────┐    │
 │  │  IncidentSreRunbook — sliding drawer, status lifecycle, AI diagnosis │    │
 │  └──────────────────────────────────────────────────────────────────────┘    │
 │                                                                              │
-│  React 19 · TypeScript 5.8 · Vite 6 · Framer Motion · Tailwind CSS v4      │
-│  5-second polling loop · mutable ref sync · multi-tenant state machine      │
+│  React 19 · TypeScript 5.8 · Vite 6 · Framer Motion · Tailwind CSS v4        │
+│  5-second polling loop · mutable ref sync · multi-tenant state machine       │
 └──────────────────────────────┬───────────────────────────────────────────────┘
                                │  REST /api/*  (JSON)
 ┌──────────────────────────────▼───────────────────────────────────────────────┐
@@ -65,39 +65,39 @@ Three core ideas drive every design decision:
 │  GET  /api/metrics?orgId=       telemetry history (last 20 snapshots)        │
 │  GET  /api/incidents?orgId=     incident list filtered by org                │
 │  POST /api/incidents            create + AI-triage via Gemini                │
-│  POST /api/incidents/:id/update status / assignee / timeline append         │
-│  POST /api/incidents/:id/ai-diagnose  deep 7-section runbook generation     │
+│  POST /api/incidents/:id/update status / assignee / timeline append          │
+│  POST /api/incidents/:id/ai-diagnose  deep 7-section runbook generation      │
 │  GET  /api/simulation/timeline  simulation alert feed                        │
-│  POST /api/simulation/trigger   manual fault injection (3 scenarios)        │
+│  POST /api/simulation/trigger   manual fault injection (3 scenarios)         │
 │  GET  /api/knowledge            list uploaded SOP documents                  │
 │  POST /api/knowledge/upload     chunk + embed + store SOP document           │
 │  POST /api/copilot/chat         RAG retrieval + Gemini generation            │
 │  POST /api/reports/generate     executive compliance brief                   │
 │                                                                              │
-│  Node.js · Express 4 · dotenv · esbuild (prod bundle) · tsx (dev)           │
-│  Background ticker (10s) · in-memory state · org-scoped incident pressure   │
+│  Node.js · Express 4 · dotenv · esbuild (prod bundle) · tsx (dev)            │
+│  Background ticker (10s) · in-memory state · org-scoped incident pressure    │
 └──────────────────────────────┬───────────────────────────────────────────────┘
                                │  Google GenAI SDK (@google/genai)
 ┌──────────────────────────────▼───────────────────────────────────────────────┐
 │                           AI LAYER  —  Google Gemini                         │
 │                                                                              │
-│  ┌──────────────────────┐  ┌───────────────────────┐  ┌───────────────────┐ │
-│  │  Incident triage     │  │  RAG pipeline         │  │  Report synthesis │ │
-│  │                      │  │                       │  │                   │ │
-│  │ POST /incidents      │  │ gemini-embedding-2    │  │ POST /reports/    │ │
-│  │ → JSON schema prompt │  │ → cosine similarity   │  │ generate          │ │
-│  │ → summary + actions  │  │ → top-3 SOP chunks    │  │ → exec brief JSON │ │
-│  │                      │  │ → grounded Gemini res │  │                   │ │
-│  └──────────────────────┘  └───────────────────────┘  └───────────────────┘ │
+│  ┌──────────────────────┐  ┌───────────────────────┐  ┌───────────────────┐  │
+│  │  Incident triage     │  │  RAG pipeline         │  │  Report synthesis │  │
+│  │                      │  │                       │  │                   │  │
+│  │ POST /incidents      │  │ gemini-embedding-2    │  │ POST /reports/    │  │
+│  │ → JSON schema prompt │  │ → cosine similarity   │  │ generate          │  │
+│  │ → summary + actions  │  │ → top-3 SOP chunks    │  │ → exec brief JSON │  │
+│  │                      │  │ → grounded Gemini res │  │                   │  │
+│  └──────────────────────┘  └───────────────────────┘  └───────────────────┘  │
 │                                                                              │
-│  Graceful degradation: falls back to L2-normalized term-vector cosine       │
+│  Graceful degradation: falls back to L2-normalized term-vector cosine        │
 │  similarity when Gemini embedding API is unavailable                         │
 └──────────────────────────────┬───────────────────────────────────────────────┘
                                │
 ┌──────────────────────────────▼───────────────────────────────────────────────┐
 │                        INFRASTRUCTURE                                        │
-│  Railway PaaS · GitHub auto-deploy · managed SSL · env var injection        │
-│  Vite SPA build (dist/) · esbuild server bundle (dist/server.cjs)           │
+│  Railway PaaS · GitHub auto-deploy · managed SSL · env var injection         │
+│  Vite SPA build (dist/) · esbuild server bundle (dist/server.cjs)            │
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 

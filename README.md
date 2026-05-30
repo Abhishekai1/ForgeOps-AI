@@ -1,6 +1,6 @@
 # ForgeOps AI
 
-> Mission-critical enterprise SRE platform — real-time incident automation, vector SOP retrieval, and AI-powered telemetry intelligence.
+> Mission critical enterprise SRE platform — real time incident automation, vector SOP retrieval, and AI powered telemetry intelligence.
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-forgeops--ai.up.railway.app-00A3FF?style=flat-square)](https://forgeops-ai.up.railway.app)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
@@ -12,7 +12,7 @@
 
 ## What is ForgeOps AI?
 
-ForgeOps AI is a full-stack SRE (Site Reliability Engineering) command center built for multi-tenant enterprise environments. It simulates and manages the operational lifecycle of production infrastructure — from live telemetry monitoring and fault injection to AI-automated incident triage, RAG-powered SOP retrieval, and executive compliance report generation.
+ForgeOps AI is a full stack SRE (Site Reliability Engineering) command center built for multi tenant enterprise environments. It simulates and manages the operational lifecycle of production infrastructure — from live telemetry monitoring and fault injection to AI-automated incident triage, RAG powered SOP retrieval, and executive compliance report generation.
 
 It is designed around three core ideas:
 
